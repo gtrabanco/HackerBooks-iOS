@@ -8,28 +8,15 @@
 
 import Foundation
 
-class Library:Indexable, GeneratorType, SequenceType {
-    
-    //Memory optimization to avoid ARC Errors
-    //Read it in Swift book
-    class BookWeak {
-        weak var book:Book?
-        
-        init(book: Book) {
-            self.book = book
-        }
-        
-        deinit {
-            self.book = nil
-        }
-    }
+class Library:Indexable, GeneratorType, SequenceType, CustomStringConvertible {
     
     //Errors
     enum LibraryError:ErrorType {
         case NoIndex
     }
     
-    private var books: [BookWeak] = []
+    private var books: [Book] = []
+
     
     
     //MARK: - Initializers
@@ -57,9 +44,11 @@ class Library:Indexable, GeneratorType, SequenceType {
     }
     
     //MARK: - Methods
+    
+    
     func addNew(book: Book...) {
         for b in book {
-            self.books.append(Library.BookWeak(book: b))
+            self.books.append(b)
         }
     }
     
@@ -71,7 +60,7 @@ class Library:Indexable, GeneratorType, SequenceType {
     
     func addNew(book: strictBook...) {
         for b in book {
-            self.addNew(Book(book: b))
+            self.books.append(Book(book: b))
         }
     }
     
@@ -80,6 +69,19 @@ class Library:Indexable, GeneratorType, SequenceType {
             self.addNew(b)
         }
     }
+    
+    
+    
+    
+    func numberOfSections() -> Int {
+        return 1
+    }
+    
+    func numberOfRowsInSection() -> Int {
+        return self.books.count
+    }
+    
+    
     
     
     //MARK: - Indexable
@@ -96,7 +98,7 @@ class Library:Indexable, GeneratorType, SequenceType {
     
     subscript(position: Index) -> _Element {
         get {
-            return self.books[position].book!
+            return self.books[position]
         }
     }
     
@@ -106,11 +108,7 @@ class Library:Indexable, GeneratorType, SequenceType {
     var currentIndex = 0
     
     func next() -> Element? {
-        guard let element = self.books[currentIndex++].book else {
-            return nil
-        }
-        
-        return element
+        return self.books[currentIndex++]
     }
     
     
@@ -119,5 +117,16 @@ class Library:Indexable, GeneratorType, SequenceType {
     
     func generate() -> Generator {
         return anyGenerator(self.next)
+    }
+    
+    //MARK: - CustomStringConvertible
+    var description:String {
+        get {
+            for b in self.books {
+                print(b)
+            }
+            
+            return "\(self.dynamicType) with \(self.books.count) books"
+        }
     }
 }

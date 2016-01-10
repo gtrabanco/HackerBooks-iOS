@@ -59,7 +59,12 @@ class Storage {
         if storeType == StorageType.NoStorageNoCache || !fm.fileExistsAtPath(filepath.path!) {
             result = NSData(contentsOfURL: url)!
         } else {
-            result = NSData(contentsOfURL: filepath)!
+            
+            guard let res = NSData(contentsOfURL: filepath) else {
+                throw StorageError.NotLocalURL
+            }
+            
+            result = res
         }
         
         //Now if we have to store the file in the disk store it

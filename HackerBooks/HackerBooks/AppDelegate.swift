@@ -12,24 +12,17 @@ import UIKit
 class AppDelegate: UIResponder, UIApplicationDelegate {
 
     var window: UIWindow?
+    var sb:UIStoryboard?
 
 
     func application(application: UIApplication, didFinishLaunchingWithOptions launchOptions: [NSObject: AnyObject]?) -> Bool {
         // Override point for customization after application launch.
         
-        do {
-            
-            let json = try Storage.get(stringURL: "https://keepcodigtest.blob.core.windows.net/containerblobstest/books_readable.json", storeType: .StorageDocuments)
-            let jsonObjBooks = try decode(json.data)
-            let library = Library(books: jsonObjBooks)
-            
-            for b in library {
-                print(b)
-            }
-            
-        } catch {
-            fatalError()
-        }
+        self.sb = UIStoryboard(name: "Main", bundle: nil)
+        self.window = UIWindow(frame: UIScreen.mainScreen().bounds)
+        self.window?.rootViewController = self.sb?.instantiateViewControllerWithIdentifier("LibraryTableVC")
+        self.window?.makeKeyAndVisible()
+        
         
         return true
     }
