@@ -123,8 +123,8 @@ class LibraryTableVC: UITableViewController {
         //First check if it is the segure we want
         if segue.identifier! == "BookViewController" {
             
-            print("Trying to make the segue \(segue.identifier)")
-            print(segue.destinationViewController.dynamicType)
+            //print("Trying to make the segue \(segue.identifier)")
+            //print(segue.destinationViewController.dynamicType)
             
             //If there is a selected row make it work
             if let indexPath = self.tableView.indexPathForSelectedRow {
@@ -144,7 +144,7 @@ class LibraryTableVC: UITableViewController {
     func loadModel() {
         do {
             
-            let json = try Storage.get(stringURL: "https://keepcodigtest.blob.core.windows.net/containerblobstest/books_readable.json", storeType: .NoStorageNoCache)
+            let json = try Storage.get(stringURL: "https://keepcodigtest.blob.core.windows.net/containerblobstest/books_readable.json", storeType: .StorageDocuments)
             let jsonObjBooks = try decode(json.data)
             self.model = Library(books: jsonObjBooks)
         } catch {

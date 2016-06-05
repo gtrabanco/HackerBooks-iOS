@@ -108,7 +108,9 @@ class Library:Indexable, GeneratorType, SequenceType, CustomStringConvertible {
     var currentIndex = 0
     
     func next() -> Element? {
-        return self.books[currentIndex++]
+        let el = self.books[currentIndex]
+        currentIndex = currentIndex + 1
+        return el
     }
     
     
@@ -116,7 +118,7 @@ class Library:Indexable, GeneratorType, SequenceType, CustomStringConvertible {
     typealias Generator = AnyGenerator<Book>
     
     func generate() -> Generator {
-        return anyGenerator(self.next)
+        return AnyGenerator(body: self.next)
     }
     
     //MARK: - CustomStringConvertible

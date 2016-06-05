@@ -104,5 +104,4 @@ class Storage {
         let fm = NSFileManager.defaultManager()
         fm.createFileAtPath(filepath.path!, contents: data, attributes: [String:AnyObject]())
     }
-    
 }

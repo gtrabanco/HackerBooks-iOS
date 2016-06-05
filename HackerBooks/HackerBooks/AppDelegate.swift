@@ -23,7 +23,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         self.window?.rootViewController = self.sb?.instantiateViewControllerWithIdentifier("LibraryTableVC")
         self.window?.makeKeyAndVisible()
         
-        
         return true
     }
 

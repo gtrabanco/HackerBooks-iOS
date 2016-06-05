@@ -42,7 +42,7 @@ class Book {
     var imageData:NSData? {
         get {
             do {
-                let result = try Storage.get(stringURL: self.imageUrlString)
+                let result = try Storage.get(stringURL: self.imageUrlString, storeType: .StorageDocuments)
                 return result.data
             } catch {
                 return nil
@@ -63,9 +63,7 @@ class Book {
     var pdfData:NSData? {
         get {
             do {
-                let result = try Storage.get(stringURL: self.pdfUrlString)
-                
-                
+                let result = try Storage.get(stringURL: self.pdfUrlString, storeType: .StorageDocuments)
                 return result.data
                 
             } catch {
